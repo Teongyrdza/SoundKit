@@ -16,15 +16,20 @@ public struct SoundList: View {
     public var body: some View {
         NavigationView {
             List {
-                ForEach($store.sounds) { $sound in
-                    NavigationLink(
-                        destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
-                    ) {
-                        Text(sound.name)
-                    }
+                if store.sounds.isEmpty {
+                    Text("There are no sounds")
                 }
-                .onDelete { indices in
-                    store.sounds.remove(atOffsets: indices)
+                else {
+                    ForEach($store.sounds) { $sound in
+                        NavigationLink(
+                            destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
+                        ) {
+                            Text(sound.name)
+                        }
+                    }
+                    .onDelete { indices in
+                        store.sounds.remove(atOffsets: indices)
+                    }
                 }
             }
             .navigationTitle("Sounds")
