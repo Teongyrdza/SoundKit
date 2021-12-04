@@ -31,7 +31,11 @@ public struct SoundPicker: View {
     func view(for sound: SoundUnion, play: @escaping () -> Void) -> some View {
         Text(sound.name)
             .onTapGesture {
-                if selection != sound || !playing {
+                if selection != sound {
+                    stopSound()
+                    play()
+                }
+                else if !playing {
                     play()
                 }
                 else {
