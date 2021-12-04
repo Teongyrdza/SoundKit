@@ -14,11 +14,11 @@ public struct EditSoundView: View {
     public var body: some View {
         List {
             Section(header: Text("Name")) {
-                TextField("Name", text: $sound.name)
+                TextField(LocalizedStringKey("Name"), text: $sound.name)
             }
             
             Section(header: Text("URL")) {
-                TextField("URL", text: $sound.url)
+                TextField(LocalizedStringKey("URL"), text: $sound.url)
             }
         }
     }

@@ -51,7 +51,7 @@ public struct SoundPicker: View {
     
     public var body: some View {
         List {
-            Section("Builtin sounds") {
+            Section(Text("Builtin sounds")) {
                 ForEach(builtinSounds) { sound in
                     view(for: .builtin(sound)) {
                         player = sound.player()
@@ -60,7 +60,7 @@ public struct SoundPicker: View {
                 }
             }
             
-            Section("Custom sounds") {
+            Section(Text("Custom sounds")) {
                 ForEach(sounds) { sound in
                     view(for: .userCreated(sound)) {
                         Task {
