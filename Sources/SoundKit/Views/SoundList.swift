@@ -59,6 +59,7 @@ public struct SoundList: View {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button("Add") {
                                     store.sounds.append(newSound)
+                                    newSound.id = UUID()
                                     adding = false
                                 }
                             }
@@ -81,7 +82,7 @@ public struct SoundList: View {
 @available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 struct SoundList_Previews: PreviewProvider {
     static var previews: some View {
-        SoundList()
+        SoundList(store: .init())
     }
 }
 #endif
