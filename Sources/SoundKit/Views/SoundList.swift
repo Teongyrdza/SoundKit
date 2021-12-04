@@ -60,7 +60,11 @@ public struct SoundList: View {
         }
     }
     
-    public init(store: SoundStore = .init(sounds: Sound.exampleData)) {
+    public init() {
+        store = .init(sounds: Sound.exampleData)
+    }
+    
+    public init(store: SoundStore) {
         self.store = store
     }
 }

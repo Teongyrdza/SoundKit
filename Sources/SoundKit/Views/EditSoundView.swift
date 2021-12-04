@@ -23,7 +23,7 @@ public struct EditSoundView: View {
         }
     }
     
-    public init(sound: Binding<Sound) {
+    public init(sound: Binding<Sound>) {
         _sound = sound
     }
 }
