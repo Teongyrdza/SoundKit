@@ -11,7 +11,7 @@ import Foundation
 import AVKit
 
 @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
-actor SoundLoader {
+public actor SoundLoader {
     public static let shared = SoundLoader()
     
     private var sounds = [URL: LoadingStatus]()
@@ -88,6 +88,10 @@ actor SoundLoader {
         sounds[url] = .fetched(data)
         
         return try AVAudioPlayer(data: data)
+    }
+    
+    public init() {
+        
     }
 }
 

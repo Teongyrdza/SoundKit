@@ -10,7 +10,7 @@ import SwiftUI
 @available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 public struct SoundList: View {
     @State var adding = false
-    @ObservedObject var store = SoundStore(sounds: Sound.exampleData)
+    @ObservedObject var store: SoundStore
     @State var newSound = Sound(name: "", url: "")
     
     public var body: some View {
@@ -58,6 +58,10 @@ public struct SoundList: View {
                 }
             }
         }
+    }
+    
+    public init(store: SoundStore = .init(sounds: Sound.exampleData)) {
+        self.store = store
     }
 }
 

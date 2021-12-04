@@ -17,6 +17,11 @@ public struct Sound: Hashable, Codable, Identifiable {
     public func player() async -> AVAudioPlayer? {
         try? await SoundLoader.shared.player(for: URL(string: url)!)
     }
+    
+    public init(name: String, url: String) {
+        self.name = name
+        self.url = url
+    }
 }
 
 extension Sound {
@@ -39,10 +44,13 @@ public struct BuiltinSound: Hashable, Codable, Identifiable {
         }
         return try! AVAudioPlayer(contentsOf: url)
     }
-}
-
-public extension BuiltinSound {
-    init(named name: String) {
+    
+    public init(name: String, fileName: String) {
+        self.name = name
+        self.fileName = fileName
+    }
+    
+    public init(named name: String) {
         self.name = name
         self.fileName = "\(name).mp3"
     }

@@ -8,10 +8,10 @@
 import SwiftUI
 
 @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
-struct EditSoundView: View {
+public struct EditSoundView: View {
     @Binding var sound: Sound
     
-    var body: some View {
+    public var body: some View {
         List {
             Section(header: Text("Name")) {
                 TextField("Name", text: $sound.name)
@@ -21,6 +21,10 @@ struct EditSoundView: View {
                 TextField("URL", text: $sound.url)
             }
         }
+    }
+    
+    public init(sound: Binding<Sound) {
+        _sound = sound
     }
 }
 

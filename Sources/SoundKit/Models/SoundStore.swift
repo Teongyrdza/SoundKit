@@ -12,7 +12,7 @@ import Combine
 public class SoundStore: ObservableObject {
     @Published public var sounds: [Sound]
     
-    init(sounds: [Sound] = []) {
+    public init(sounds: [Sound] = []) {
         self.sounds = sounds
     }
 }
