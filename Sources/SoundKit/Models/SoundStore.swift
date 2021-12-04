@@ -8,7 +8,11 @@
 import Foundation
 import Combine
 
-@available(iOS 13.0, macOS 10.15, watchOS 8.0, tvOS 13.0, *)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public class SoundStore: ObservableObject {
-    @Published public var sounds = [Sound]()
+    @Published public var sounds: [Sound]
+    
+    init(sounds: [Sound] = []) {
+        self.sounds = sounds
+    }
 }
