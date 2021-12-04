@@ -15,20 +15,23 @@ public struct SoundList: View {
     
     public var body: some View {
         NavigationView {
-            List {
+            Group {
                 if store.sounds.isEmpty {
                     Text("There are no sounds")
+                        .foregroundColor(.secondary)
                 }
                 else {
-                    ForEach($store.sounds) { $sound in
-                        NavigationLink(
-                            destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
-                        ) {
-                            Text(sound.name)
+                    List {
+                        ForEach($store.sounds) { $sound in
+                            NavigationLink(
+                                destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
+                            ) {
+                                Text(sound.name)
+                            }
                         }
-                    }
-                    .onDelete { indices in
-                        store.sounds.remove(atOffsets: indices)
+                        .onDelete { indices in
+                            store.sounds.remove(atOffsets: indices)
+                        }
                     }
                 }
             }
