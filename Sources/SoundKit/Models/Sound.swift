@@ -64,7 +64,7 @@ extension BuiltinSound {
     ]
 }
 
-public enum SoundUnion: Hashable {
+public enum SoundUnion: Hashable, Codable {
     case builtin(BuiltinSound)
     case userCreated(Sound)
     
