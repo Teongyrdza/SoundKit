@@ -22,7 +22,7 @@ public class SoundStore: ObservableObject, Codable {
         sounds = try container.decode([Sound].self)
     }
     
-    public init(sounds: [Sound] = []) {
+    public required init(sounds: [Sound] = []) {
         self.sounds = sounds
     }
 }
