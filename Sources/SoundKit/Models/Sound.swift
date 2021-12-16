@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFAudio
+import SwiftUI
 
 public struct Sound: Hashable, Codable, Identifiable {
     public var id = UUID()
@@ -37,6 +38,11 @@ public struct BuiltinSound: Hashable, Codable, Identifiable {
     public var id = UUID()
     public var name: String
     public var fileName: String
+    
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+    public var localizedName: LocalizedStringKey {
+        .init(name)
+    }
     
     public func player() -> AVAudioPlayer? {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: nil) else {
@@ -71,7 +77,7 @@ public enum SoundUnion: Hashable, Codable {
     public var name: String {
         switch self {
             case .builtin(let builtinSound):
-                return builtinSound.name
+                return NSLocalizedString(builtinSound.name, comment: "")
             case .userCreated(let sound):
                 return sound.name
         }
