@@ -51,6 +51,10 @@ public struct BuiltinSound: Hashable, Codable, Identifiable {
         return try! AVAudioPlayer(contentsOf: url)
     }
     
+    public static func == (lhs: BuiltinSound, rhs: BuiltinSound) -> Bool {
+        lhs.name == rhs.name && lhs.fileName == rhs.fileName
+    }
+    
     public init(name: String, fileName: String) {
         self.name = name
         self.fileName = fileName

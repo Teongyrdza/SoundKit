@@ -83,7 +83,7 @@ public struct SoundPicker: View {
 #if DEBUG
 @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
 struct SoundPickerPreview: View {
-    @State var selection: SoundUnion = .builtin(BuiltinSound.exampleData[0])
+    @State var selection: SoundUnion = .builtin(BuiltinSound(named: "Ding"))
     
     var body: some View {
         SoundPicker(selection: $selection, sounds: Sound.exampleData, builtinSounds: BuiltinSound.exampleData)
