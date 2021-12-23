@@ -14,57 +14,55 @@ public struct SoundList: View {
     @State var newSound = Sound(name: "", url: "")
     
     public var body: some View {
-        NavigationView {
-            Group {
-                if store.sounds.isEmpty {
-                    Text("There are no sounds")
-                        .foregroundColor(.secondary)
-                }
-                else {
-                    List {
-                        ForEach($store.sounds) { $sound in
-                            NavigationLink(
-                                destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
-                            ) {
-                                Text(sound.name)
-                            }
+        Group {
+            if store.sounds.isEmpty {
+                Text("There are no sounds")
+                    .foregroundColor(.secondary)
+            }
+            else {
+                List {
+                    ForEach($store.sounds) { $sound in
+                        NavigationLink(
+                            destination: EditSoundView(sound: $sound).navigationTitle(sound.name)
+                        ) {
+                            Text(sound.name)
                         }
-                        .onDelete { indices in
-                            store.sounds.remove(atOffsets: indices)
-                        }
+                    }
+                    .onDelete { indices in
+                        store.sounds.remove(atOffsets: indices)
                     }
                 }
             }
-            .navigationTitle("Sounds")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        adding = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
+        }
+        .navigationTitle("Sounds")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    adding = true
+                } label: {
+                    Image(systemName: "plus")
                 }
             }
-            .sheet(isPresented: $adding) {
-                NavigationView {
-                    EditSoundView(sound: $newSound)
-                        .navigationTitle("New sound")
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button("Cancel") {
-                                    adding = false
-                                }
-                            }
-                            
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button("Add") {
-                                    store.sounds.append(newSound)
-                                    newSound.id = UUID()
-                                    adding = false
-                                }
+        }
+        .sheet(isPresented: $adding) {
+            NavigationView {
+                EditSoundView(sound: $newSound)
+                    .navigationTitle("New sound")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button("Cancel") {
+                                adding = false
                             }
                         }
-                }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button("Add") {
+                                store.sounds.append(newSound)
+                                newSound.id = UUID()
+                                adding = false
+                            }
+                        }
+                    }
             }
         }
     }
@@ -82,7 +80,9 @@ public struct SoundList: View {
 @available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 struct SoundList_Previews: PreviewProvider {
     static var previews: some View {
-        SoundList(store: .init())
+        NavigationView {
+            SoundList(store: .init())
+        }
     }
 }
 #endif
