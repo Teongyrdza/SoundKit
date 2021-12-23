@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 import StarUI
 
-@available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public struct SoundPicker: View {
     @Binding var selection: SoundUnion
     let sounds: [Sound]
@@ -81,7 +81,7 @@ public struct SoundPicker: View {
 }
 
 #if DEBUG
-@available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 struct SoundPickerPreview: View {
     @State var selection: SoundUnion = .builtin(BuiltinSound(named: "Ding"))
     
@@ -90,7 +90,7 @@ struct SoundPickerPreview: View {
     }
 }
 
-@available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 struct SoundPicker_Previews: PreviewProvider {
     static var previews: some View {
         SoundPickerPreview()

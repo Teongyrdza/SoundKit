@@ -14,7 +14,7 @@ public struct Sound: Hashable, Codable, Identifiable {
     public var name: String
     public var url: String
     
-    @available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
+    @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
     public func player() async -> AVAudioPlayer? {
         try? await SoundLoader.shared.player(for: URL(string: url)!)
     }

@@ -6,11 +6,33 @@
 //
 
 import Foundation
-
-import Foundation
 import AVKit
 
-@available(iOS 15.0, macOS 12.0, watchOS 8.0, tvOS 15.0, *)
+enum URLSessionError: Error {
+    case unknownError
+}
+
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+extension URLSession {
+    func data(from url: URL) async throws -> (Data, URLResponse) {
+        try await withCheckedThrowingContinuation { continuation in
+            dataTask(with: url) { data, response, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                }
+                else if let data = data, let response = response {
+                    continuation.resume(returning: (data, response))
+                }
+                else {
+                    continuation.resume(throwing: URLSessionError.unknownError)
+                }
+            }
+            .resume()
+        }
+    }
+}
+
+@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public actor SoundLoader {
     public static let shared = SoundLoader()
     
@@ -76,7 +98,7 @@ public actor SoundLoader {
         print("Using the network")
         
         let task: Task<Data, Error> = Task {
-            let (data, _) = try await URLSession.shared.data(for: URLRequest(url: url))
+            let (data, _) = try await URLSession.shared.data(from: url)
             try persistData(data, for: url)
             return data
         }
