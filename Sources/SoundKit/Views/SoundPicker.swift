@@ -29,24 +29,26 @@ public struct SoundPicker: View {
     }
     
     func view(for sound: SoundUnion, play: @escaping () -> Void) -> some View {
-        Text(sound.name)
-            .onTapGesture {
-                if selection != sound {
-                    stopSound()
-                    play()
-                }
-                else if !playing {
-                    play()
-                }
-                else {
-                    stopSound()
-                }
-                
-                selection = sound
+        Button {
+            if selection != sound {
+                stopSound()
+                play()
             }
-            .if(selection == sound)
-            .listRowBackground(Color.accentColor)
-            .endif()
+            else if !playing {
+                play()
+            }
+            else {
+                stopSound()
+            }
+            
+            selection = sound
+        } label: {
+            Text(sound.name)
+                .foregroundColor(.primary)
+        }
+        .if(selection == sound)
+        .listRowBackground(Color.accentColor)
+        .endif()
     }
     
     public var body: some View {
