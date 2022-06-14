@@ -12,7 +12,7 @@ import StarUI
 @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public struct SoundPicker: View {
     @Binding var selection: SoundUnion
-    let sounds: [Sound]
+    let sounds: [Sound]?
     let builtinSounds: [BuiltinSound]
     
     @State var playing = false
@@ -28,8 +28,8 @@ public struct SoundPicker: View {
         player?.pause()
     }
     
-    func view(for sound: SoundUnion, play: @escaping () -> Void) -> some View {
-        Button {
+    func view(for sound: SoundUnion, cell: ListPickerCell<SoundUnion>.Builder, play: @escaping () -> Void) -> some View {
+        cell(sound.name, selected: selection == sound) {
             if selection != sound {
                 stopSound()
                 play()
@@ -42,35 +42,38 @@ public struct SoundPicker: View {
             }
             
             selection = sound
-        } label: {
-            Text(sound.name)
-                .foregroundColor(.primary)
         }
-        .if(selection == sound)
-        .listRowBackground(Color.accentColor)
-        .endif()
+    }
+    
+    func builtinSoundPicker(cell: ListPickerCell<SoundUnion>.Builder) -> some View {
+        ForEach(builtinSounds) { sound in
+            view(for: .builtin(sound), cell: cell) {
+                player = sound.player()
+                playSound()
+            }
+        }
     }
     
     public var body: some View {
-        List {
-            Section(header: Text("Builtin sounds")) {
-                ForEach(builtinSounds) { sound in
-                    view(for: .builtin(sound)) {
-                        player = sound.player()
-                        playSound()
-                    }
+        ListPicker(selection: $selection) { cell in
+            if let sounds = sounds {
+                Section(header: Text("Builtin sounds")) {
+                    builtinSoundPicker(cell: cell)
                 }
-            }
-            
-            Section(header: Text("Custom sounds")) {
-                ForEach(sounds) { sound in
-                    view(for: .userCreated(sound)) {
-                        Task {
-                            player = await sound.player()
-                            playSound()
+                
+                Section(header: Text("Custom sounds")) {
+                    ForEach(sounds) { sound in
+                        view(for: .userCreated(sound), cell: cell) {
+                            Task {
+                                player = await sound.player()
+                                playSound()
+                            }
                         }
                     }
                 }
+            }
+            else {
+                builtinSoundPicker(cell: cell)
             }
         }
     }
@@ -79,6 +82,16 @@ public struct SoundPicker: View {
         self._selection = selection
         self.sounds = sounds
         self.builtinSounds = builtinSounds
+    }
+    
+    public init(selection: Binding<BuiltinSound>, sounds: [BuiltinSound]) {
+        _selection = .init(get: { .builtin(selection.wrappedValue) }) {
+            if case .builtin(let sound) = $0 {
+                selection.wrappedValue = sound
+            }
+        }
+        builtinSounds = sounds
+        self.sounds = nil
     }
 }
 
