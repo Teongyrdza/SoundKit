@@ -9,8 +9,17 @@ import SwiftUI
 import AVKit
 import StarUI
 
+class PickerModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
+    var playing = false
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        playing = false
+    }
+}
+
 @available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
 public struct SoundPicker: View {
+    @StateObject var model = PickerModel()
     @Binding var selection: SoundUnion
     let sounds: [Sound]?
     let builtinSounds: [BuiltinSound]
@@ -19,12 +28,14 @@ public struct SoundPicker: View {
     @State var player: AVAudioPlayer?
     
     func playSound() {
-        playing = true
+        model.playing = true
+        player?.delegate = model
+        player?.currentTime = .zero
         player?.play()
     }
     
     func stopSound() {
-        playing = false
+        model.playing = false
         player?.pause()
     }
     
@@ -32,16 +43,15 @@ public struct SoundPicker: View {
         cell(sound.name, selected: selection == sound) {
             if selection != sound {
                 stopSound()
-                play()
-            }
-            else if !playing {
-                play()
-            }
-            else {
-                stopSound()
+                selection = sound
             }
             
-            selection = sound
+            if model.playing {
+                stopSound()
+            }
+            else {
+                play()
+            }
         }
     }
     
