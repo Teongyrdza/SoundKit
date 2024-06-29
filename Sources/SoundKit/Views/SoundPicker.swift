@@ -9,7 +9,7 @@ import SwiftUI
 import AVKit
 import StarUI
 
-class PickerModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
+class SoundPickerModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
     var playing = false
     
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
@@ -17,15 +17,14 @@ class PickerModel: NSObject, ObservableObject, AVAudioPlayerDelegate {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+@available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 public struct SoundPicker: View {
-    @StateObject var model = PickerModel()
     @Binding var selection: SoundUnion
     let sounds: [Sound]?
     let builtinSounds: [BuiltinSound]
     
-    @State var playing = false
     @State var player: AVAudioPlayer?
+    @StateObject var model = SoundPickerModel()
     
     func playSound() {
         model.playing = true
@@ -106,7 +105,7 @@ public struct SoundPicker: View {
 }
 
 #if DEBUG
-@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+@available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 struct SoundPickerPreview: View {
     @State var selection: SoundUnion = .builtin(BuiltinSound(named: "Ding"))
     
@@ -115,7 +114,7 @@ struct SoundPickerPreview: View {
     }
 }
 
-@available(iOS 13.0, macOS 10.15, watchOS 6.0, tvOS 13.0, *)
+@available(iOS 14.0, macOS 11.0, watchOS 7.0, tvOS 14.0, *)
 struct SoundPicker_Previews: PreviewProvider {
     static var previews: some View {
         SoundPickerPreview()
